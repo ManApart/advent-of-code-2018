@@ -3,7 +3,8 @@ defmodule Day2 do
     input
     |> parse
     |> Enum.map(&count_pairs/1)
-    # |> Enum.reduce({0,0}, &sum_counts/2)
+    |> Enum.reduce({0,0}, &sum_counts/2)
+    |> sum
   end
 
   def count_pairs(line) do
@@ -32,18 +33,16 @@ defmodule Day2 do
     Map.update(acc, x, 1, &(&1 + 1))
   end
 
-  defp count_eligible(x, acc) do
-    {count_map, pair_count, triple_count} = acc
-
+  defp count_eligible(x, {count_map, pair_count, triple_count}) do
     pair_count =
       case Map.get(count_map, x) do
-        2 -> 1 + pair_count
+        2 -> 1
         _ -> pair_count
       end
 
     triple_count =
       case Map.get(count_map, x) do
-        3 -> 1 + triple_count
+        3 -> 1
         _ -> triple_count
       end
 
@@ -51,16 +50,16 @@ defmodule Day2 do
     {count_map, pair_count, triple_count}
   end
 
-  defp unpack(tuple) do
-    {count_map, pair_count, triple_count} = tuple
+  defp unpack({count_map, pair_count, triple_count}) do
     {pair_count, triple_count}
   end
 
-defp sum_counts(x, acc) do
-  {pair_count, triple_count} = x
-  {pair_total, triple_total} = acc
-
+defp sum_counts({pair_count, triple_count}, {pair_total, triple_total}) do
   {pair_count + pair_total, triple_count + triple_total}
+end
+
+defp sum({pair_count, triple_count}) do
+  pair_count * triple_count
 end
 
 end

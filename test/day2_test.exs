@@ -33,4 +33,9 @@ defmodule Day2Tests do
     line = "abcccd"
     assert Day2.count_pairs(line) == {0, 1}
   end
+
+  test "part one aabcdd" do
+    line = "aabcdd"
+    assert Day2.count_pairs(line) == {1, 0}
+  end
 end
