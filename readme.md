@@ -19,3 +19,12 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/advent](https://hexdocs.pm/advent).
 
+
+
+### Running
+
+To run, run `iex -S mix` and then store the input data as and then call the method:
+```
+input = "1 2 3"
+Day1.part_one(input)
+```
