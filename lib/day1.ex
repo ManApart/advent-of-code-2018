@@ -1,26 +1,35 @@
 defmodule Day1 do
-  def part_one(input) do
-    Regex.split(~r{[\n\r\s]+}, input)
-    |> Enum.map(fn x-> String.replace_prefix(x, "+", "") end)
-    |> Enum.filter(fn x -> x != "" end)
-    |> Enum.map(fn x-> String.to_integer(x) end)
-    |> Enum.sum
+  def part_one(input \\ getInput()) do
+    input
+    |> parse_integers()
+    |> Enum.sum()
   end
 
-  def part_two(input) do
-    Regex.split(~r{[\n\r\s]+}, input)
-    |> Enum.map(fn x-> String.replace_prefix(x, "+", "") end)
-    |> Enum.filter(fn x -> x != "" end)
-    |> Enum.map(fn x-> String.to_integer(x) end)
-    |> Stream.cycle
-    |> Enum.reduce_while([0], fn x, acc ->
-        if !hasCycled(x, acc), do: {:cont, [(x + List.first(acc)) | acc]}, else: {:halt, x + List.first(acc)}
-    end)
+  def part_two(input \\ getInput()) do
+    input
+    |> parse_integers()
+    |> Stream.cycle()
+    |> Enum.reduce_while([0], &find_repeating_sum/2)
   end
 
-  defp hasCycled(x, acc) do
+  defp getInput() do
+    File.stream!("day1.txt")
+    |> Enum.join(" ")
+  end
+
+  defp parse_integers(input) do
+    Regex.split(~r{[\n\r\s]+}, input)
+    |> Stream.filter(fn x -> x != "" end)
+    |> Stream.map(&String.to_integer/1)
+  end
+
+  defp find_repeating_sum(x, acc) do
+    sum = x + List.first(acc)
+    if !hasCycled(sum, acc), do: {:cont, [sum | acc]}, else: {:halt, sum}
+  end
+
+  defp hasCycled(sum, acc) do
     # IO.puts(" #{x} -------  #{List.first(acc)}")
-    Enum.member?(acc, x + List.first(acc))
+    Enum.member?(acc, sum)
   end
-
 end
