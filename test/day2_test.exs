@@ -11,6 +11,7 @@ defmodule Day2Tests do
     abcdee
     ababab
     """
+
     assert Day2.part_one(input) == 12
   end
 
