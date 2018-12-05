@@ -39,4 +39,5 @@ defmodule Day2Tests do
     line = "aabcdd"
     assert Day2.count_pairs(line) == {1, 0}
   end
+
 end

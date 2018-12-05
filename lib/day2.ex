@@ -32,7 +32,7 @@ defmodule Day2 do
         _ -> pair_exists
       end
 
-      triple_exists =
+    triple_exists =
       case Map.get(count_map, x) do
         3 -> 1
         _ -> triple_exists
