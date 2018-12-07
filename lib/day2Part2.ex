@@ -1,4 +1,4 @@
-defmodule Day2P2 do
+defmodule Day2Part2 do
   def part_two(input \\ nil) do
     lines = input
     |> parse
@@ -18,10 +18,7 @@ defmodule Day2P2 do
   end
 
   defp find_word_pair(search_word, all_words) do
-    # other_words = List.delete(all_words, search_word)
-    # IO.puts("find_word_pair: " <> search_word <> " " <> inspect(all_words))
     word_search = Enum.reduce_while(all_words, search_word, &test_word_pair/2)
-    # IO.puts("word search" <> inspect(word_search))
     case word_search do
       {match, un_matched_indexes} -> {:halt, {match, un_matched_indexes} }
       _ -> {:cont, all_words}
@@ -29,17 +26,15 @@ defmodule Day2P2 do
 
   end
 
+  defp test_word_pair(possible_match, original_word) when possible_match == original_word, do: {:cont, original_word}
+
   defp test_word_pair(possible_match, original_word) do
-    # IO.puts("test_word_pair: " <> possible_match <> " " <> original_word)
-    if possible_match == original_word, do: {:cont, original_word}
     un_matched_indexes = find_un_matched_indexes(possible_match, original_word)
-    # TODO - returning different arity in continue and halt
-    if length(un_matched_indexes) != 1, do: {:cont, original_word}, else: {:halt, {possible_match, un_matched_indexes}}
+    if length(un_matched_indexes) == 1, do: {:halt, {possible_match, un_matched_indexes}}, else: {:cont, original_word}
   end
 
   def find_un_matched_indexes(word_a, word_b) do
-      {i, un_matched_indexes, other_word} = Enum.reduce(String.to_char_list(word_a), {0, [], String.to_char_list(word_b)}, &letter_matches/2)
-      # IO.puts("letter matches: " <> inspect(word_a) <> " " <> inspect(word_b) <> " " <> inspect(un_matched_indexes))
+      {_, un_matched_indexes, _} = Enum.reduce(String.to_charlist(word_a), {0, [], String.to_charlist(word_b)}, &letter_matches/2)
       un_matched_indexes
   end
 
@@ -49,18 +44,13 @@ defmodule Day2P2 do
       letter == other_letter -> un_matched_indexes
       true -> [i | un_matched_indexes]
     end
-    # IO.puts("Letter: " <> inspect(letter) <> " " <> inspect(i) <> " " <> inspect(other_letter) <> " " <> inspect(new_un_matched_indexes))
     {1+i, new_un_matched_indexes, other_word}
   end
 
   defp remove_unmatched_letter({original_word, un_matched_indexes}) do
-    # Enum.reduce_while(String.to_char_list(word_a), String.to_char_list(word_b), &find_word_pair/2)
-    # {word_a, word_b}
-    i = List.first(un_matched_indexes)
-
     original_word
-    |> String.to_char_list
-    |> List.delete_at(i)
+    |> String.to_charlist
+    |> List.delete_at( List.first(un_matched_indexes))
     |> List.to_string
   end
 

@@ -1,4 +1,4 @@
-defmodule Day2P2Tests do
+defmodule Day2Part2Tests do
   use ExUnit.Case
 
 
@@ -13,16 +13,16 @@ defmodule Day2P2Tests do
     wvxyz
     """
 
-    assert Day2P2.part_two(input) == "fgij"
+    assert Day2Part2.part_two(input) == "fgij"
   end
 
 
   test "part two - words match 0" do
-    assert [4,3,2,1, 0] == Day2P2.find_un_matched_indexes("fghij", "abcde")
+    assert [4,3,2,1,0] == Day2Part2.find_un_matched_indexes("fghij", "abcde")
   end
 
   test "part two - words match 4" do
-    assert [2] == Day2P2.find_un_matched_indexes("fghij", "fguij")
+    assert [2] == Day2Part2.find_un_matched_indexes("fghij", "fguij")
   end
 
 end
